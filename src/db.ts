@@ -3,7 +3,8 @@ import postgres from "postgres";
 export type Sql = postgres.Sql;
 
 export function connect(url: string): Sql {
-  return postgres(url, { max: 10, onnotice: () => {} });
+  // prepare: false — hosted poolers like Neon's (PgBouncer) don't support prepared statements.
+  return postgres(url, { max: 10, prepare: false, onnotice: () => {} });
 }
 
 /** Creates the tables if they don't exist yet. Safe to run on every start. */
